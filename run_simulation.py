@@ -41,7 +41,6 @@ def run_simulation(
     sigma,    # parametr w funkcji fitness (kontroluje siłę selekcji)
     threshold,  # przykładowy próg do selekcji progowej (do ewentualnego użycia)
     hibernation_thresh, # próg hibernacji
-    h_p,        # prawdopodobieństwo obudzenia się z hibernacji przy jednym pokoleniu (do rozkładu geometrycznego losowania długości hibernacji)
     mu_h,       # prawdopodobieństwo hibernacji, gdy w dobrym progu
     # amplituda i okres sinusoidalnej zmiany optymalnego fenotypu
     A,
@@ -56,7 +55,7 @@ def run_simulation(
     pop = Population(size=N, n_dim=n)
 
     # Katalog, w którym zapisujemy obrazki
-    frames_dir = f"frames_{mu}_{sigma}_{A}_{B}"
+    frames_dir = f"frames_{mu}_{mu_h}_{sigma}_{A}_{B}"
     os.makedirs(frames_dir, exist_ok=True)  # tworzy folder, jeśli nie istnieje
 
     #listy do wykresu liczby hibernacji w zależności od optimum
@@ -75,7 +74,7 @@ def run_simulation(
         mutate_population(pop, mu=mu, mu_c=mu_c, xi=xi)
 
         # 2. Selekcja
-        survivors, current_fitnesses= threshold_selection(pop, env.get_optimal_phenotype(), sigma, threshold,  hibernation_thresh, h_p, mu_h)
+        survivors, current_fitnesses= threshold_selection(pop, env.get_optimal_phenotype(), sigma, threshold,  hibernation_thresh, mu_h)
         fitnesses.extend(current_fitnesses)
 
         # 3. Reprodukcja
@@ -112,14 +111,11 @@ def run_simulation(
 
     print("Symulacja zakończona.")
 
-    print("Przeżyte hibernacje: ", pop.get_survived_hib(), "; Powtórzone hibernacje: ", pop.get_repeated_hib(), "; Wszystkie hibernacje: ", pop.get_total_hib(), "\n")
-    print("średnie fitness = ", np.mean(fitnesses))
-
     print("Tworzenie GIF-a...")
 
     # Tutaj wywołujemy funkcję, która połączy zapisane klatki w animację
-    create_gif_from_frames(frames_dir, f"simulation_{mu}_{sigma}_{A}_{B}.gif")
-    print(f"GIF zapisany jako simulation_{mu}_{sigma}_{A}_{B}.gif")
+    create_gif_from_frames(frames_dir, f"simulation_{mu}_{mu_h}_{sigma}_{A}_{B}.gif")
+    print(f"GIF zapisany jako simulation_{mu}_{mu_h}_{sigma}_{A}_{B}.gif")
 
     print("Tworzenie wykresu z liczbą hibernacji...")
 
@@ -132,10 +128,10 @@ def run_simulation(
     plt.xlabel("Optimum")
     plt.ylabel("Liczba osobników w hibernacji")
     plt.tight_layout()
-    plt.savefig(f"hibernacje_{mu}_{sigma}_{A}_{B}.png")
+    plt.savefig(f"hibernacje_{mu}_{mu_h}_{sigma}_{A}_{B}.png")
     plt.close()
 
-    print(f"Liczba hibernacji zapisana jako hibernacje_{mu}_{sigma}_{A}_{B}.png")
+    print(f"Liczba hibernacji zapisana jako hibernacje_{mu}_{mu_h}_{sigma}_{A}_{B}.png")
 
     print("Tworzenie wykresu z liczbą aktywnych i zahibernowanych osobników w czasie...")
 
@@ -148,10 +144,10 @@ def run_simulation(
     plt.ylabel("Liczba osobników")
     plt.legend()
     plt.tight_layout()
-    plt.savefig(f"akt_hib_{mu}_{sigma}_{A}_{B}.png")
+    plt.savefig(f"akt_hib_{mu}_{mu_h}_{sigma}_{A}_{B}.png")
     plt.close()
 
-    print(f"Liczba aktywnych i zahibernowanych zapisana jako akt_hib_{mu}_{sigma}_{A}_{B}.png")
+    print(f"Liczba aktywnych i zahibernowanych zapisana jako akt_hib_{mu}_{mu_h}_{sigma}_{A}_{B}.png")
 
     return pop.get_survived_hib(), pop.get_repeated_hib(), pop.get_total_hib(), np.mean(fitnesses), no_generation
         

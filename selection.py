@@ -16,7 +16,7 @@ def fitness_function(phenotype, alpha, sigma):
 
 
 
-def threshold_selection(population, alpha, sigma, threshold, hibernation_thresh, h_p, mu_h):
+def threshold_selection(population, alpha, sigma, threshold, hibernation_thresh, mu_h):
     """
     Model progowy:
       - Eliminujemy osobniki, których fitness < threshold.
