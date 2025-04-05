@@ -3,7 +3,7 @@
 W repozytorium znajdują się pliki z kodem źródłowym, będącym modyfikacją podstawowego kodu z Geometrycznym Modelem Fishera (tak, aby uwzględniał nasze rozszerzenia: hibernacje i sinusoidalne zmiany optymalnego fenotypu) oraz wykresy obrazujące uzyskane wyniki. 
 
 Większość plików z rozszerzeniem .py jest analogicznych do tych z podstawowego modelu, z tą różnicą, ze uwzględnia nasze rozszerzenia i zapamiętywanie interesujących nas danych. 
-Plik ryn_simulation.py zawiera funkcję, która uruchamia pojedynczą symulację. 
+Plik run_simulation.py zawiera funkcję, która przeprowadza pojedynczą symulację. Uruchomienie go jako __main__ będzie skutkowało włączeniem symulacji z wszystkimi parametrami z takimi wartościami jak w config.py. Pliki z tej symulacji podpisane są config_simulation.
 Plik main.py uruchamia wiele symulacji i tworzy heatmapy obrazujące różne zachowanie populacji przy zmianie dwóch parametrów.
 
 Folder gif zawiera gify przebiegu pojedynczych symulacji.

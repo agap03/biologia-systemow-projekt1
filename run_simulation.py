@@ -151,3 +151,18 @@ def run_simulation(
 
     return pop.get_survived_hib(), pop.get_repeated_hib(), pop.get_total_hib(), np.mean(fitnesses), no_generation
         
+
+if __name__ == "__main__":
+    _, _, _, _, _= run_simulation(
+                config.N,
+                config.mu,
+                config.mu_c,
+                config.xi,
+                config.sigma,
+                config.threshold,
+                config.hibernation_thresh,
+                config.mu_h,
+                config.A,
+                config.B,
+                config.max_generations,
+            )
